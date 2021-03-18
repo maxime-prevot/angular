@@ -3,18 +3,27 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
-
+import {MatDialog} from '@angular/material/dialog'
+import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css'],
 })
 export class AssignmentsComponent implements OnInit {
+
+  assignmentsNonRendus: Assignment[];
+  assignmentsRendus: Assignment[];
   titre = 'Mon application sur les Assignments 2 !';
   formVisible = false;
   assignments: Assignment[] = [];
   assignmentSelectionne: Assignment;
-
+  dataSource: MatTableDataSource<Assignment>;
+  matiereSelected = "";
+  matieres = ["Bases de données", "Techno Web", "IA"];
+  displayedColumns = ["nom","dateDeRendu","auteur","matiere", "remarques", "note", "rendu","id"]
+  
   page: Number;
   nextPage: Number = 1;
   limit: Number = 10;
@@ -24,17 +33,32 @@ export class AssignmentsComponent implements OnInit {
 
   constructor(
     private assignmentsService: AssignmentsService,
-    private ngZone: NgZone
-  ) {}
+    private ngZone: NgZone, private _router: Router
+  ) {
+    this.dataSource = new MatTableDataSource();
+  }
 
   ngOnInit(): void {
-    /*
-    this.assignmentsService.getAssignments().subscribe((assignments) => {
-      // exécuté que quand les données sont réellement disponible
-      this.assignments = assignments;
+    this.assignmentsService.getAssignments()
+    .subscribe((data) => {
+      var assignments = data["docs"];
+      // appelé que quand les données sont prêtes
+      this.assignmentsNonRendus = assignments.filter((assignment) => {
+        return !assignment.rendu;
+      });
+      console.log(this.assignmentsNonRendus);
+      this.assignmentsRendus = assignments.filter((assignment) => {
+        return assignment.rendu;
+      });
     });
-*/
-  this.getAssignments();
+    this.getAssignments(); 
+  }
+
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); 
+    filterValue = filterValue.toLowerCase(); 
+    this.dataSource.filter = filterValue;
   }
 
   // avec pagination...
@@ -43,6 +67,7 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentsService
       .getAssignmentsPagine(this.nextPage, this.limit)
       .subscribe((data) => {
+        console.log("DATA "+ data)
         this.page = data['page'];
         this.nextPage = data['nextPage'];
         this.countAssignments = data['totalDocs'];
@@ -93,14 +118,11 @@ export class AssignmentsComponent implements OnInit {
   }
   */
 
-  peuplerBD() {
-    // Version Taoufik qui ne renvoie pas un Observable
-    //this.assignmentsService.peuplerBD();
-
-    // Version William qui renvoie un Observable une fois tous les inserts faits
-    this.assignmentsService.peuplerBDJoin().subscribe((message) => {
-      console.log(message);
+  async peuplerBD()  {
+   await  this.assignmentsService.peuplerBDJoin().subscribe((message) => {
+      
     });
+    
   }
 
   addMoreAssignments() {

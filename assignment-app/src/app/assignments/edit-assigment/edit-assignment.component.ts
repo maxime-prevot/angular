@@ -12,7 +12,7 @@ export class EditAssignmentComponent implements OnInit {
   assignment: Assignment;
   nomAssignment: string;
   dateDeRendu: Date;
-
+  matieres = ["Techno Web","Base de données","IA"]
   constructor(
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,

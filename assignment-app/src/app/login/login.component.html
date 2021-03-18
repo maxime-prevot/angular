@@ -1,0 +1,20 @@
+
+<div class="main flex flex-center flex-columns">
+  <div class="flex">
+    <h1>Bienvenue sur Assignments</h1>
+  </div>
+  <mat-form-field floatLabel="never">
+    <mat-label>Nom d'utilisateur</mat-label>
+    <input matInput [(ngModel)]="model.username" (keyup.enter)="connect()" />
+  </mat-form-field>
+  <br>
+  <mat-form-field floatLabel="never" style="margin-top: -20px !important;">
+    <mat-label>Mot de passe</mat-label>
+    <input matInput [(ngModel)]="model.pwd" (keyup.enter)="connect()" />
+  </mat-form-field>
+  <br>
+  <span *ngIf="err" style="color:red;margin-bottom:18px;">{{err}}</span>
+  <button *ngIf="!loading && showPwd" mat-flat-button color="primary" (click)="connect()">Se connecter</button>
+  <mat-spinner style="margin-bottom:25px;" *ngIf="loading" color="primary"></mat-spinner>
+</div>
+

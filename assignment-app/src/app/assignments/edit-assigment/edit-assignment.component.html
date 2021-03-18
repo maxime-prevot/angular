@@ -12,8 +12,20 @@
       </mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="auteurControl" placeholder="Edition de l'auteur" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Matière</mat-label>
+      <mat-select matInput formControlName="matiereControl" placeholder="Matière" required>
+        <mat-option *ngFor="let matiere of matieres" [value]="matiere">
+          {{matiere}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <button mat-raised-button color="primary" (click)="onSaveAssignment()">
       Sauver
     </button>
+
   </form>
 </div>

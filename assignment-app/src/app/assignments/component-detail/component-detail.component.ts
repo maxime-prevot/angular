@@ -52,8 +52,9 @@ export class ComponentDetailComponent implements OnInit {
   }
 
   onClickEdit() {
+    console.log("C EST L ID" + this.assignementTransmis.id);
     this.router.navigate(
-                    ['assignment', this.assignementTransmis.id, 'edit'],
+                    ['/assignment', this.assignementTransmis.id, 'edit'],
                     {
                       queryParams:{
                         nom:this.assignementTransmis.nom

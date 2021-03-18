@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import {Assignment} from '../assignment.model';
@@ -11,20 +12,48 @@ import {Assignment} from '../assignment.model';
 export class AddAssignementComponent implements OnInit {
   // form
   nomDevoir:string;
-  dateRendu:Date;
+  dateDeRendu:Date;
 
+  matieres = ["Techno Web","Base de données","IA"]
+  nomFormGroup: FormGroup;
+  dateFormGroup: FormGroup;
+  auteurFormGroup: FormGroup;
+  matiereFormGroup: FormGroup;
+  /* renduFormGroup: FormGroup; */
   constructor(private assignmentsService:AssignmentsService,
-              private router:Router) { }
+              private router:Router, private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.resetForm();
   }
-  onSubmit() {
+
+  resetForm() {
+    this.nomFormGroup = this._formBuilder.group({
+      nomControl: ['', Validators.required]
+    });
+    this.dateFormGroup = this._formBuilder.group({
+      dateControl: [new Date(), Validators.required]
+    });
+    this.auteurFormGroup = this._formBuilder.group({
+      auteurControl: ['', Validators.required]
+    });
+    this.matiereFormGroup = this._formBuilder.group({
+      matiereControl: ['', Validators.required]
+    });
+   /*  this.renduFormGroup = this._formBuilder.group({
+      renduControl: [new Boolean(), Validators.required]
+    }); */
+  }
+  onSubmit(event) {
+    event.preventDefault();
     console.log("onSubmit")
     const newAssignment = new Assignment();
 
-    newAssignment.nom = this.nomDevoir;
-    newAssignment.dateDeRendu = this.dateRendu;
-    newAssignment.rendu = false;
+    newAssignment.nom = this.nomFormGroup.get("nomControl").value;
+    newAssignment.dateDeRendu = this.dateFormGroup.get("dateControl").value;
+    /* newAssignment.rendu = this.renduFormGroup.get("renduControl").value; */
+    newAssignment.auteur = this.auteurFormGroup.get("auteurControl").value;
+    newAssignment.matiere = this.matiereFormGroup.get("matiereControl").value;
     newAssignment.id = Math.ceil(Math.random()*100000);
 
 

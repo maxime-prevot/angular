@@ -6,11 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import * as data from './assignments.json';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class AssignmentsService {
-  assignments: Assignment[] = [
+  /* assignments: Assignment[] = [
     {
       id: 1,
       nom: 'TP1 Web Components à rendre',
@@ -29,7 +30,7 @@ export class AssignmentsService {
       dateDeRendu: new Date('2021-01-07'),
       rendu: false,
     },
-  ];
+  ]; */
 
   constructor(
     private loggingService: LoggingService,
@@ -66,7 +67,11 @@ export class AssignmentsService {
         id:id,
         nom: 'Nouvel Assignment # ' + id,
         dateDeRendu: new Date(),
-        rendu: false
+        rendu: false,
+        auteur: "Jean Merguez",
+        matiere: "Techno web",
+        remarques: "RAS",
+        note: null
       });
     }
     return of(newAssignments);
@@ -148,6 +153,21 @@ export class AssignmentsService {
       new_assignment.nom = a.nom;
       new_assignment.dateDeRendu = new Date(a.dateDeRendu);
       new_assignment.rendu = false;
+      new_assignment.auteur = "Jean Merguez";
+      var j = Math.ceil(Math.random()*2);
+      switch(j){
+        case 0:{
+          new_assignment.matiere = "Techno web"
+        }
+        case 1:{
+          new_assignment.matiere = "Base de données"
+        }
+        case 2:{
+          new_assignment.matiere = "IA"
+        }
+      }
+      new_assignment.remarques= "RAS";
+      new_assignment.note = null;
 
       this.addAssignment(new_assignment)
         .subscribe(message => {
@@ -160,8 +180,6 @@ export class AssignmentsService {
     return Math.ceil(Math.random()*100000);
   }
 
-  // autre version qui permet de récupérer un subscribe une fois que tous les inserts
-  // ont été effectués
   peuplerBDJoin(): Observable<any> {
     const calls = [];
 
@@ -172,7 +190,24 @@ export class AssignmentsService {
 
       new_assignment.nom = a.nom;
       new_assignment.dateDeRendu = new Date(a.dateDeRendu);
+      console.log("avant rendu")
       new_assignment.rendu = false;
+      new_assignment.auteur = "Jean Merguez";
+      var j = Math.floor(Math.random()*3)+1;
+      switch(j){
+        case 1:{
+          new_assignment.matiere = "Techno web"
+        }
+        case 2:{
+          new_assignment.matiere = "Base de données"
+        }
+        case 3:{
+          new_assignment.matiere = "IA"
+        }
+      }
+      console.log("avant remarques")
+      new_assignment.remarques= "RAS";
+      new_assignment.note = null;
       calls.push(this.addAssignment(new_assignment));
     });
     return forkJoin(calls); // renvoie un seul Observable pour dire que c'est fini

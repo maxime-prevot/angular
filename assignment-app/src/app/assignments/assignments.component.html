@@ -1,18 +1,50 @@
 <div class="container">
   <a routerLink="/add">
-    <button class="ajouterBtn" mat-flat-button color="accent">
+    <button class="ajouterBtn" mat-flat-button color="primary">
       Ajouter Devoir
     </button>
   </a>
-  <button class="ajouterBtn" mat-flat-button color="accent" (click)="peuplerBD()">
+  <button class="ajouterBtn" mat-flat-button color="primary" (click)="peuplerBD()">
     Peupler BD
   </button>
-  <button class="ajouterBtn" mat-flat-button color="accent" (click)="addMoreAssignments()">
+ <!--  <button class="ajouterBtn" mat-flat-button color="primary" (click)="addMoreAssignments()">
     Ajouter 20 assignments supplémentaires
-  </button>
+  </button> -->
 </div>
+<mat-tab-group>
+  <mat-tab label="Non rendu">
+    <mat-list *ngFor="let a of assignmentsNonRendus">
+      <nav>
+        <a routerLink="/assignment/{{a.id}}">
+          <h3 mat-subheader>{{a.dateDeRendu | date}}</h3>
+  
+          <mat-list-item>
+            <p>{{a.nom}}</p>
+  
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </a>
+      </nav>
+    </mat-list>
+  </mat-tab>
 
-<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
+  <mat-tab label="Rendu">
+    <mat-list *ngFor="let a of assignmentsRendus">
+      <nav>
+        <a routerLink="/assignment/{{a.id}}">
+          <h3 mat-subheader>{{a.dateDeRendu | date}}</h3>
+  
+          <mat-list-item>
+            <p>{{a.nom}}</p>
+  
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </a>
+      </nav>
+    </mat-list>
+  </mat-tab>
+</mat-tab-group>
+<!-- <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
   <mat-list *cdkVirtualFor="let assignment of assignments">
     <nav>
       <a routerLink="/assignment/{{this.assignment.id}}">
@@ -29,8 +61,84 @@
       </a>
     </nav>
   </mat-list>
-</cdk-virtual-scroll-viewport>
+</cdk-virtual-scroll-viewport> -->
 
+<mat-card class='light' style="height: 100%;">
+  <mat-card-header>
+    <mat-card-title class="view-card-title">
+      <h1>Autre type d'affichage</h1>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-table #table [dataSource]="assignments" matSort>
+    <ng-container matColumnDef="nom">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Nom </mat-header-cell>
+      <mat-cell *matCellDef="let assignment">
+        {{assignment.nom}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="dateDeRendu">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date de rendu </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="auteur">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Auteur </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.auteur}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="matiere">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Matiere </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.matiere}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="remarques">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Remarques </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.remarques }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="note">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Note  </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.note}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="DCFYSophia">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> DCFY Sophia  </mat-header-cell>
+      <mat-cell class="cell" *matCellDef="let assignment"> {{assignment.DCFYSophia}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef style="justify-content:right;">
+        <!-- <button mat-button style="color:white; background-color:darkgrey" (click)="resetListFilter()">Reset</button> -->
+      </mat-header-cell>
+      <mat-cell *matCellDef="let assignment" style="justify-content:right;">
+        <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;"
+          [routerLink]="['/assignments/edit/', assignment.id]">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab style="background-color:rgb(204, 106, 26); min-height: 30px;   margin: 5px;"
+          [routerLink]="['/assignments/', assignment.id]">
+          <mat-icon>info</mat-icon>
+        </button>
+      </mat-cell>
+      
+        
+      
+      <ng-container matColumnDef="rendu">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Rendu</mat-header-cell>
+        <mat-cell *matCellDef="let assignment">
+          <span *ngIf="assignment.rendu" style="color:green">
+            <mat-icon>check_circle</mat-icon>
+          </span>
+          <span *ngIf="!assignment.rendu" style="color:darkgrey">
+            <mat-icon>highlight_off</mat-icon>
+          </span>
+        </mat-cell>
+      </ng-container>
+       <!--  <button mat-mini-fab style="background-color:lightblue; min-height: 30px;  margin: 5px;"
+          (click)="openDialog(assignment.id)">
+          <mat-icon>delete</mat-icon>
+        </button> -->
+      
+    </ng-container> 
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-card>
 <!--
 <app-component-detail [assignementTransmis]="assignmentSelectionne"></app-component-detail>
 -->

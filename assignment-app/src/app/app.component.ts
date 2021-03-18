@@ -18,7 +18,7 @@ export class AppComponent {
       this.authService.logOut();
       this.router.navigate(["/home"]);
     } else {
-      this.authService.logIn();
+      /* this.authService.logIn(); */
     }
   }
 }
