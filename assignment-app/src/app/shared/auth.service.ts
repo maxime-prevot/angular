@@ -19,15 +19,16 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   logIn(username:string, pwd:string) {
-    return this.http.post<any>(environment.url + 'auth', {
+    return this.http.post<any>(environment.url + 'user', {
       "username": username,
       "pwd": pwd })
-      .pipe(map(user => {
-        // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
+      .pipe(map(data => {
+        console.log("data");
+      /*   // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
         user.authdata = window.btoa(username + ':' + pwd);
         localStorage.setItem('currentUser', JSON.stringify(user));
-        this.loggedIn = true;
-        return user;
+        this.loggedIn = true; */
+        return data;
       }));
     
   }

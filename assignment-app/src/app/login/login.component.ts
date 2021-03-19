@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { AssignmentsComponent } from '../assignments/assignments.component';
 import { AssignmentsService } from '../shared/assignments.service';
@@ -24,13 +25,18 @@ export class LoginComponent implements OnInit {
 
   revealPwd: boolean = false;
 
-  constructor(private _authService:AuthService, private _assignmentsService:AssignmentsService, private route: ActivatedRoute, private _router: Router) { }
+  constructor(private _authService:AuthService, private _assignmentsService:AssignmentsService, private route: ActivatedRoute, private _router: Router, private _snackBar: MatSnackBar) { }
 
   ngOnInit() : void {
     this.model.username = "";
     this.model.pwd = "";
   }
 
+  openSnackBar(message: string){
+    this._snackBar.open(message, 'X', {
+      duration: 3000,
+    });
+  }
   connect() {
     this.err = "";
     this.loading = true;
@@ -38,16 +44,12 @@ export class LoginComponent implements OnInit {
     console.log("pwd" + this.model.pwd )
 
     this._authService.logIn(this.model.username,this.model.pwd).subscribe(
-      (user) => {
-        console.log('user' + user)
-        this.connectedEvent.emit(true);
-        localStorage.setItem('username', user.username);
-        localStorage.setItem('pwd', user.pwd);
-        this.loading = false;
+      (res) => {
+        this.openSnackBar("Bienvenue !");
         this._router.navigate(["/home"])
       },
       (err) => {
-        console.log(err)
+        this.openSnackBar("Mauvais identifiant et/ou mot de passe !");
         this.loading = false;
       }
     );

@@ -5,6 +5,7 @@
       <input matInput placeholder="Edition du nom" [(ngModel)]="nomAssignment"
              name="assignment-name">
     </mat-form-field>
+    <span class="spacer"></span>
     <mat-form-field>
       <input matInput [matDatepicker]="picker" placeholder="Edition de la date"
              [(ngModel)]="dateDeRendu" name="date">
@@ -12,12 +13,14 @@
       </mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <span class="spacer"></span>
     <mat-form-field>
-      <input matInput formControlName="auteurControl" placeholder="Edition de l'auteur" required>
+      <input matInput [(ngModel)]="auteur" placeholder="Edition de l'auteur" name="auteur" required>
     </mat-form-field>
+    <span class="spacer"></span>
     <mat-form-field>
       <mat-label>Matière</mat-label>
-      <mat-select matInput formControlName="matiereControl" placeholder="Matière" required>
+      <mat-select matInput [(ngModel)]="matiere" placeholder="Matière" name="matiere" required>
         <mat-option *ngFor="let matiere of matieres" [value]="matiere">
           {{matiere}}
         </mat-option>

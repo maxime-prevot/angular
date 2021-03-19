@@ -107,11 +107,11 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let assignment" style="justify-content:right;">
         <button mat-mini-fab style="background-color:teal; min-height: 30px;   margin: 5px;"
-          [routerLink]="['/assignments/edit/', assignment.id]">
+          [routerLink]="['/assignment', assignment.id, 'edit']">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-mini-fab style="background-color:rgb(204, 106, 26); min-height: 30px;   margin: 5px;"
-          [routerLink]="['/assignments/', assignment.id]">
+          [routerLink]="['/assignment/', assignment.id]">
           <mat-icon>info</mat-icon>
         </button>
       </mat-cell>

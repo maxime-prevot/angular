@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { MatTableModule } from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs'; 
 import { MatSelectModule } from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import { DatePipe } from '@angular/common';
 
@@ -51,8 +52,7 @@ const routes:Routes = [
   },
   {
     path:"assignment/:id/edit",
-    component:EditAssignmentComponent,
-    canActivate: [AuthGuard]
+    component:EditAssignmentComponent
   },
 ]
 
@@ -73,7 +73,7 @@ const routes:Routes = [
     MatInputModule, MatFormFieldModule, ReactiveFormsModule,
     MatDatepickerModule, MatNativeDateModule, MatTableModule, MatToolbarModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSelectModule, MatTabsModule,
-    MatSlideToggleModule, MatStepperModule,
+    MatSlideToggleModule, MatStepperModule, MatSnackBarModule,
     FormsModule, HttpClientModule, ScrollingModule,
     RouterModule.forRoot(routes)
   ],

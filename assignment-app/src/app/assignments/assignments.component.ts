@@ -75,7 +75,7 @@ export class AssignmentsComponent implements OnInit {
       });
   }
 
-  ngAfterViewInit() {
+  /* ngAfterViewInit() {
     console.log('After view init');
     this.scroller
       .elementScrolled()
@@ -102,7 +102,7 @@ export class AssignmentsComponent implements OnInit {
           this.getAssignments(); // déjà prêt car nextPage re-initialisé à chaque requête
         });
       });
-  }
+  } */
 
   assignmentClique(assignment) {
     this.assignmentSelectionne = assignment;

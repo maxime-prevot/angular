@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
@@ -12,6 +13,10 @@ export class EditAssignmentComponent implements OnInit {
   assignment: Assignment;
   nomAssignment: string;
   dateDeRendu: Date;
+  auteur: string;
+  matiere:string;
+  
+  matiereFormGroup: FormGroup;
   matieres = ["Techno Web","Base de données","IA"]
   constructor(
     private assignmentsService: AssignmentsService,
@@ -20,6 +25,9 @@ export class EditAssignmentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.nomAssignment = params['nom'];
+    });
     this.getAssignment();
 
     console.log('Query Params : ');
@@ -35,6 +43,8 @@ export class EditAssignmentComponent implements OnInit {
       this.assignment = assignment;
       this.nomAssignment = assignment.nom;
       this.dateDeRendu = assignment.dateDeRendu;
+      this.auteur = assignment.auteur;
+      this.matiere = assignment.matiere;
     });
   }
 
@@ -42,9 +52,14 @@ export class EditAssignmentComponent implements OnInit {
     if (this.nomAssignment) {
       this.assignment.nom = this.nomAssignment;
     }
-
     if (this.dateDeRendu) {
       this.assignment.dateDeRendu = this.dateDeRendu;
+    }
+    if (this.auteur) {
+      this.assignment.auteur = this.auteur;
+    }
+    if (this.matiere) {
+      this.assignment.matiere = this.matiere;
     }
     this.assignmentsService
       .updateAssignment(this.assignment)
