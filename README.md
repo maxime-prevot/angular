@@ -22,7 +22,10 @@ In order to launch the app, run the following commands:
 ```bash
 cd api
 node ./server.js
-cd ../assignment-app
+```
+
+```bash
+cd assignment-app
 ng serve
 ```
 
