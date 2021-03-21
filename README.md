@@ -31,6 +31,6 @@ ng serve
 
 Run http://localhost:4200 to access it.
 
-To login, use admin for username and pass for password.
+To login, use test for username and test for password aswell.
 
 There is two kind of display in this app, one using mat tabs and one using mat table.
